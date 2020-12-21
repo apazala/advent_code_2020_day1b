@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cinttypes>
 
 using namespace std;
 
@@ -26,17 +27,31 @@ int main()
 	myfile.close();
 
 	bool found = false;
-	int i = -1, j = MAXVAL + 1;
-	while (!found && i < j) {
-		i++;
-		j--;
-		found = (listed[i] && listed[j]);
+	
+	int i = 0, j = 0, k = MAXVAL+1;
+	while (!found && k > 0)
+	{
+		k--;
+		if (listed[k]) {
+			i = 0, j = MAXVAL - k;
+			while (!found && i < j)
+			{
+				i++;
+				j--;
+				found = listed[i] && listed[j];
+			}
+		}
 	}
+
 
 	if (!found)
 		cout << "Ooops...\n";
-	else
-		cout << i*j << endl;
+	else {
+		int64_t res = i*j;
+		res *= k;
+		cout << res << endl;
+	}
+		
 
 	return 0;
 }
